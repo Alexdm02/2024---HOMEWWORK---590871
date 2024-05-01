@@ -1,9 +1,26 @@
+/**
+ * 
+ */
 package it.uniroma3.diadia.ambienti;
+
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
+/**
+ * Labirinto: classe che si occupa di gestire e creare il labirinto della partita
+ * 
+ * @author 
+ * 
+ * @see Stanza
+ * @see Attrezzo
+ * 
+ * @version 1.0
+ */
 public class Labirinto {
+	
 	private Stanza stanzaCorrente;
 	private Stanza stanzaVincente;
+	
+
     /**
      * Crea tutte le stanze e le porte di collegamento
      */
@@ -42,8 +59,9 @@ public class Labirinto {
         stanzaCorrente = atrio;  
 		stanzaVincente = biblioteca;
     }
-    
-    public Stanza getStanzaVincente() {
+	
+
+	public Stanza getStanzaVincente() {
 		return stanzaVincente;
 	}
 

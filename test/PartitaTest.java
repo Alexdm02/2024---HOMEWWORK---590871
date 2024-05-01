@@ -1,31 +1,34 @@
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Stanza;
 
-public class PartitaTest {
-
-	Partita p = new Partita();
-	Stanza s = new Stanza("Stanza");
+class PartitaTest {
 	
+	Partita p=new Partita();
+	Stanza s1=p.getLabirinto().getStanzaCorrente();
+	Stanza s2=p.getLabirinto().getStanzaVincente();
+
 	@Test
-	public void testGetStanzaVincente() {
-		assertEquals("Biblioteca", p.getLabirinto().getStanzaVincente().getNome());
+	void testGetStanzaVincente() {
+		assertEquals(s2, p.getLabirinto().getStanzaVincente());
 	}
 
 	@Test
-	public void testSetStanzaCorrente() {
-		p.getLabirinto().setStanzaCorrente(s);
-		assertEquals(s, p.getLabirinto().getStanzaCorrente());
+	void testGetStanzaCorrente() {
+		assertEquals(p.getLabirinto().getStanzaCorrente(), s1);
 	}
 
 	@Test
-	public void testIsFinita() {
-		
-		assertFalse(p.isFinita());
+	void testVinta() {
+		assertFalse(p.vinta());
 	}
-	
+
+	@Test
+	void testGetCfu() {
+		assertEquals(p.getGiocatore().getCfu(), 20);
+	}
+
 }

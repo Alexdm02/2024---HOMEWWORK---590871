@@ -1,39 +1,36 @@
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.ambienti.Stanza;
 
-public class LabirintoTest {
+class LabirintoTest {
+	
 	Labirinto l;
-	Stanza biblioteca;
-	Stanza DS1;
+	Stanza s;
 
-	@Before
-	public void setUp() {
-		l = new Labirinto();
+	@BeforeEach
+	void setUp() throws Exception {
+		l=new Labirinto();
 		l.creaStanze();
-		biblioteca = new Stanza("Biblioteca");
-		DS1 = new Stanza("DS1");
+		s=new Stanza("Bagno");
 	}
 
-
 	@Test
-	public void testGetStanzaVincente() {
+	void testGetStanzaVincente() {
 		assertEquals("Biblioteca", l.getStanzaVincente().getNome());
 	}
 
+	@Test
+	void testSetStanzaCorrente() {
+		l.setStanzaCorrente(s);
+		assertEquals(s, l.getStanzaCorrente());
+	}
 
 	@Test
-	public void testSetStanzaCorrente() {
-		l.setStanzaCorrente(DS1);
-		assertEquals(DS1, l.getStanzaCorrente());
-	}
-	@Test
-	public void testGetStanzaCorrente() {
+	void testGetStanzaCorrente() {
 		assertEquals("Atrio", l.getStanzaCorrente().getNome());
 	}
 

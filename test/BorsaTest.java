@@ -1,41 +1,52 @@
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.giocatore.Borsa;
 
-public class BorsaTest {
-
-	Borsa b = new Borsa();
-	Attrezzo falce;
-	Attrezzo sega;
+class BorsaTest {
+	Borsa b= new Borsa();
+	Attrezzo torcia;
+	Attrezzo manubrio;
+	Attrezzo libro;
 	
-	@Before
-	public void setUp() {
-		falce = new Attrezzo("falce", 2);
-		sega = new Attrezzo("sega", 16);
+
+	@BeforeEach
+	void setUp() throws Exception {
+		torcia=new Attrezzo("torcia", 2);
+		manubrio=new Attrezzo("manubrio", 12);
+		libro=new Attrezzo("libro", 4);
 	}
 
 	@Test
-	public void testAddAttrezzoPesoMinoreDiDieci() {
-		assertTrue(b.addAttrezzo(falce));
-
+	void testAddAttrezzoMinoreDiDieci() {
+		assertTrue(b.addAttrezzo(torcia));
 	}
 	
 	@Test
-	public void testAddAttrezzoPesoMaggioreDiDieci() {
-		assertFalse(b.addAttrezzo(sega));
+	void testAddAttrezzoMaggioreDiDieci() {
+		assertFalse(b.addAttrezzo(manubrio));
+	}
 
+	@Test
+	void testGetPeso() {
+		b.addAttrezzo(torcia);
+		assertEquals(torcia.getPeso(), b.getPeso());
+	}
+
+	@Test
+	void testGetAttrezzo() {
+		b.addAttrezzo(torcia);
+		assertEquals(torcia, b.getAttrezzo("torcia"));
 	}
 	
 	@Test
-	public void testGetPeso() {
-		b.addAttrezzo(falce);
-		assertEquals(falce, b.getAttrezzo("falce"));
-
+	void testRemoveAttrezzo() {
+		b.addAttrezzo(torcia);
+		b.addAttrezzo(libro);
+		assertNotNull(b.removeAttrezzo("libro"));
 	}
+
 }
