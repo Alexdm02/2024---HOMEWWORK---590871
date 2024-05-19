@@ -31,6 +31,7 @@ public class StanzaTest {
 	@Test
 	public void testAddAttrezzo() {
 		assertTrue(s1.addAttrezzo(a));
+		//assertFalse(s1.addAttrezzo(b));
 	}
 	
 	@Test

@@ -22,10 +22,9 @@ public class Partita {
 	/**
 	 * Metodo che crea un labirinto e un nuovo giocatore
 	 */
-	public Partita(){
+	public Partita(Labirinto labirinto){
 		giocatore= new Giocatore();
-		labirinto= new Labirinto();
-	    labirinto.creaStanze();
+		this.labirinto = labirinto;
 		this.finita = false;
 	}
 	
