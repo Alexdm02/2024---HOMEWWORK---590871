@@ -1,10 +1,8 @@
+package it.uniroma3.diadia.ambienti;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 
-import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 public class StanzaTest {

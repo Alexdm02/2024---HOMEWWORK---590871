@@ -1,5 +1,6 @@
 package it.uniroma3.diadia;
 
+
 import java.util.Scanner;
 
 /**
@@ -10,7 +11,7 @@ import java.util.Scanner;
  * (Ad es. alla riga digitata dall'utente "vai nord"
  *  corrisponde un comando di nome "vai" e parametro "nord").
  *
- * @author  docente di POO
+ * @author  docente di POO 
  * @version base
  */
 
@@ -19,6 +20,10 @@ public class Comando {
     private String nome;
     private String parametro;
 
+    /**
+     * Metodo che prende una stringa e crea un comando
+     * @param istruzione
+     */
     public Comando(String istruzione) {
 		Scanner scannerDiParole = new Scanner(istruzione);
 

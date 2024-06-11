@@ -6,11 +6,11 @@ package it.uniroma3.diadia.giocatore;
 /**
  * Giocatore: classe che si occupa di gestire il giocatore e creare la borsa
  * 
- * @author docente di POO 590871 
+ * @author 591033 & 589632
  * 
  * @see Borsa
  * 
- * @version 1.0
+ * @version 2.0
  */
 public class Giocatore {
 	

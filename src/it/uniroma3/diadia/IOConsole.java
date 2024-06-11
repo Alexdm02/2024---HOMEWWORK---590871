@@ -5,18 +5,19 @@ import java.util.Scanner;
 /**
  * IOConsole: classe che gestisce le stampe e le letture di istruzioni
  * 
- * @author docente di POO
+ * @see IO
  * 
- * @version
+ * @author docente di POO & 591033 (Gabriele Iorio) & 589632 (Loris Maria Cicchetti)
+ * 
+ * @version 2.0
  */
 
-public class IOConsole implements IO{
+public class IOConsole implements IO {
 	
 	/**
 	 * Metodo che stampa messaggi
 	 * @param msg
 	 */
-	
 	@Override
     public void mostraMessaggio(String msg) {
     	System.out.println(msg);
@@ -26,7 +27,6 @@ public class IOConsole implements IO{
      * Metodo per leggere istruzioni
      * @return restituisce una stringa
      */
-	
 	@Override
     public String leggiRiga() {
 
