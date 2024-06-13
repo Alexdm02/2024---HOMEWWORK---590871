@@ -1,5 +1,10 @@
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Scanner;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,50 +24,39 @@ import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
 
 class TestFabbricaDiComandiFisarmonica {
 	
-	FabbricaDiComandi f;
-	Comando comando;
-	IO io;
-
-	@BeforeEach
-	void setUp() throws Exception {
-		io = new IOConsole();
-		f = new FabbricaDiComandiFisarmonica(io);	
+	private FabbricaDiComandiFisarmonica fabbrica;
+	private IO io;
+	private Comando expected;
+	
+	@Before
+	public void setUp() throws Exception {
+		io = new IOConsole(new Scanner(System.in));
+		fabbrica = new FabbricaDiComandiFisarmonica(io);
 	}
 
-	@Test
-	void testCostruisciComandoAiuto() {
-		comando=f.costruisciComando("aiuto");
-		assertEquals(new ComandoAiuto().getNome(), comando.getNome());
+	@After
+	public void tearDown() throws Exception {
 	}
+
 	@Test
-	void testCostruisciComandoVai() {
-		comando=f.costruisciComando("vai");
-		assertEquals(new ComandoVai().getNome(), comando.getNome());
+	public void testComandoNonValido() {
+		expected = new ComandoNonValido();
+		assertEquals( expected.getNome(), fabbrica.costruisciComando("pippo").getNome());
 	}
+	
 	@Test
-	void testCostruisciComandoPrendi() {
-		comando=f.costruisciComando("prendi");
-		assertEquals(new ComandoPrendi().getNome(), comando.getNome());
+	public void testComandoConParametro() {
+		expected = new ComandoVai();
+		expected.setParametro("nord");
+		Comando current = fabbrica.costruisciComando("vai nord");
+		assertEquals( expected.getNome(), current.getNome());
+		assertEquals( expected.getParametro(), current.getParametro());
 	}
+	
 	@Test
-	void testCostruisciComandoPosa() {
-		comando=f.costruisciComando("posa");
-		assertEquals(new ComandoPosa().getNome(), comando.getNome());
-	}
-	@Test
-	void testCostruisciComandoNonValido() {
-		comando=f.costruisciComando("non valido");
-		assertEquals(new ComandoNonValido().getNome(), comando.getNome());
-	}
-	@Test
-	void testCostruisciComandoGuarda() {
-		comando=f.costruisciComando("guarda");
-		assertEquals(new ComandoGuarda().getNome(), comando.getNome());
-	}
-	@Test
-	void testCostruisciComandoFine() {
-		comando=f.costruisciComando("fine");
-		assertEquals(new ComandoFine().getNome(), comando.getNome());
+	public void testComandoSenzaParametro() {
+		expected = new ComandoFine();
+		assertEquals( expected.getNome(), fabbrica.costruisciComando("fine").getNome());
 	}
 
 }

@@ -1,5 +1,11 @@
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Scanner;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -7,39 +13,70 @@ import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
+import it.uniroma3.diadia.comandi.Comando;
 import it.uniroma3.diadia.comandi.ComandoPrendi;
 
 class TestComandoPrendi {
-	Labirinto l;
-	Partita p;
-	ComandoPrendi c;
-	Attrezzo a;
-	IO io;
-
-	@BeforeEach
-	void setUp() throws Exception {
-		l = new LabirintoBuilder()
-				.addStanzaIniziale("Atrio")
-				.addAttrezzo("martello", 3)
-				.addStanzaVincente("Biblioteca")
-				.addAdiacenza("Atrio", "Biblioteca", "nord")
-				.addAdiacenza("Biblioteca", "Atrio", "sud")
-				.getLabirinto();
-		p = new Partita(l);
-		io = new IOConsole();
-		c = new ComandoPrendi();
-		a = new Attrezzo("Martello", 4);
-		p.getLabirinto().getStanzaCorrente().addAttrezzo(a);
-		c.setIO(io);
+	private Partita partita;
+	private Attrezzo attrezzo;
+	private Attrezzo attrezzoPesante;
+	private Attrezzo attrezzoNull;
+	private Comando comando;
+	private IO io;
+	Labirinto labirinto;
+	
+	@Before
+	public void setUp() throws Exception {
+		 labirinto = Labirinto.newBuilder("labirinto2.txt").getLabirinto();
+//				new LabirintoBuilder()
+//				.addStanzaIniziale("Atrio")
+//				.addAttrezzo("martello", 3)
+//				.addStanzaVincente("Biblioteca")
+//				.addAdiacenza("Atrio", "Biblioteca", "nord")
+//				.getLabirinto();
+		partita = new Partita(labirinto);
+		attrezzo = new Attrezzo("martello", 2);
+		attrezzoPesante = new Attrezzo("incudine", 11);
+		attrezzoNull = null;
+		comando = new ComandoPrendi();
+		io = new IOConsole(new Scanner(System.in));
+		comando.setIO(io);
 	}
 
+
+	@After
+	public void tearDown() throws Exception {
+	}
+	
+	public boolean attrezzoPresente(String s) {
+		//Set<Attrezzo> set = partita.getStanzaCorrente().getAttrezzi();
+		if(partita.getLabirinto().getStanzaCorrente().getAttrezzo(s)==null)
+			return false;
+		return true;
+		}
+	
 	@Test
-	void testEsegui() {
-		c.setParametro(a.getNome());
-		c.esegui(p);
-		assertTrue(p.getGiocatore().getBorsa().hasAttrezzo(a.getNome()));
+	public void testAttrezzoPreso() {
+		partita.getLabirinto().getStanzaCorrente().addAttrezzo(attrezzo);
+		comando.setParametro("martello");
+		comando.esegui(partita);
+		assertFalse(attrezzoPresente("martello"));
+	}
+	
+	@Test
+	public void testAttrezzoNonPresente() {
+		comando.setParametro("martello");
+		comando.esegui(partita);
+		assertFalse(attrezzoPresente("martello"));
+	}
+	
+	@Test
+	public void testAttrezzoPesante() {
+		partita.getLabirinto().getStanzaCorrente().addAttrezzo(attrezzoPesante);
+		comando.setParametro("incudine");
+		comando.esegui(partita);
+		assertTrue(attrezzoPresente("incudine"));
 	}
 
 }

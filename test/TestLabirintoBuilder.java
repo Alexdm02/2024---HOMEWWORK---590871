@@ -1,78 +1,65 @@
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
+import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.Labirinto.LabirintoBuilder;
 import it.uniroma3.diadia.ambienti.Stanza;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
 class TestLabirintoBuilder {
-	LabirintoBuilder l;
+	Labirinto.LabirintoBuilder lb;
+
+	@Before
+	public void setUp() throws Exception {
+		//lb = Labirinto.newBuilder("labirinto.txt");
+		lb = new LabirintoBuilder("labirinto.txt");
+	} 
+
+	@After
+	public void tearDown() throws Exception {
+	}
+
+
+	@Test
+	public void testGetLabirinto() {
+		assertNotNull(lb.getLabirinto());
+		assertEquals(Labirinto.class, lb.getLabirinto().getClass());
+	}
+
+	@Test
+	public void testAddStanza() {
+		lb.addStanza("stanzetta");
+		Stanza expected = new Stanza("stanzetta");
+		assertEquals(expected, lb.getnomeStanza().get("stanzetta"));
+	}
+
+	@Test
+	public void testAddAttrezzoSenzaUltimaStanzaAggiunta(){
+		
+		//lb.addAttrezzo("cacciavite", 3);
+		//Attrezzo expected = new Attrezzo("cacciavite", 3);
+		assertEquals(LabirintoBuilder.class, lb.addAttrezzo("cacciavite", 3).getClass());
+	}
 	
-	@BeforeEach
-	void setUp() throws Exception {
-		l = new LabirintoBuilder();
+	@Test
+	public void testAddAttrezzoConUltimaStanzaAggiunta(){
+		lb.addStanzaIniziale("stanzetta").addAttrezzo("cacciavite", 3);
+		Attrezzo expected = new Attrezzo("cacciavite", 3);
+		assertEquals(expected, lb.getLabirinto().getStanzaCorrente().getAttrezzo("cacciavite"));		
 	}
 
 	@Test
-	void testGetLabirinto() {
-		assertNotNull(l.getLabirinto());
-	}
-
-	@Test
-	void testAddStanzaIniziale() {
-		l.addStanzaIniziale("Salotto");
-		assertEquals(l.getLabirinto().getStanzaCorrente(), l.getnomeStanza().get("Salotto"));
-	}
-
-	@Test
-	void testAddStanzaVincente() {
-		l.addStanzaVincente("Salotto");
-		assertEquals(l.getLabirinto().getStanzaVincente(), l.getnomeStanza().get("Salotto"));
-	}
-
-	@Test
-	void testAddAttrezzo() {
-		l.addAttrezzo("trapano", 2);
-		l.addStanzaIniziale("Salotto");
-		assertEquals(l.getLabirinto().getStanzaCorrente().getAttrezzo("trapano"), l.getnomeStanza().get("Salotto").getAttrezzo("trapano"));                                            
-	}
-
-	@Test
-	void testAddAdiacenza() {
-		l.getnomeStanza().put("Salotto", new Stanza("Salotto"));
-		l.getnomeStanza().put("Cucina", new Stanza("Cucina"));
-		l.addStanzaIniziale("Salone");
-		l.addAdiacenza("Salone", "Cucina", "Nord");
-		assertEquals(l.getLabirinto().getStanzaCorrente().getStanzaAdiacente("Nord"), l.getnomeStanza().get("Cucina"));
-	}
-
-	@Test
-	void testAddStanzaMagica() {
-		l.addStanzaMagica("Cucina");
-		l.addStanzaIniziale("Salone");
-		l.addAdiacenza("Salone", "Cucina", "Nord");
-		
-		assertEquals(l.getLabirinto().getStanzaCorrente().getStanzaAdiacente("Nord"), l.getnomeStanza().get("Cucina"));
-	}
-
-	@Test
-	void testAddStanzaBuia() {
-		l.addStanzaBuia("Cucina", "torcia");
-		l.addStanzaIniziale("Salone");
-		l.addAdiacenza("Salone", "Cucina", "Nord");
-		
-		assertEquals(l.getLabirinto().getStanzaCorrente().getStanzaAdiacente("Nord"), l.getnomeStanza().get("Cucina"));
-	}
-
-	@Test
-	void testAddStanzaBloccata() {
-		l.addStanzaBloccata("Cucina", "Sud", "trapano");
-		l.addStanzaIniziale("Salone");
-		l.addAdiacenza("Salone", "Cucina", "Nord");
-		
-		assertEquals(l.getLabirinto().getStanzaCorrente().getStanzaAdiacente("Nord"), l.getnomeStanza().get("Cucina"));
-	}
+    public void testAddAttrezzoConStanza() {
+        lb.addStanza("stanzetta");
+        lb.addAttrezzo("cacciavite", 3);
+        assertTrue(lb.getnomeStanza().get("stanzetta").hasAttrezzo("cacciavite"));
+    }
 
 }

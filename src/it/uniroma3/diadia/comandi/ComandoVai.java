@@ -1,83 +1,61 @@
 package it.uniroma3.diadia.comandi;
+
 import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
+import it.uniroma3.diadia.ambienti.Direzioni;
 import it.uniroma3.diadia.ambienti.Stanza;
-
-
+import it.uniroma3.diadia.giocatore.Giocatore;
 /**
- * ComandoVai - classe che crea un comando e sposta un giocatore da una stanza all'altra
- * 
- * @author 591033 && 589632
- * 
- * @see Comando
- * @see IO
- * @see Partita
- * @see Stanza
- * 
- * @version 2.0
- */
-public class ComandoVai implements Comando {
-	private String direzione;
-	private static final String NOME="vai";
-	private IO console;
+* Nome-classe: ComandoFine
+* un comando che fa muovere il giocatore
+*
+* @author 590871
+* @see FabbricaDiComandiFisarmonica
+* @version 1.0
+*/
+
+public class ComandoVai extends AbstractComando{
 	
-	/**
-	*Metodo che esegue il comando, se la direzione non esiste stampa un messaggio, se esiste verifica se
-	*esiste una stanza adiacente allora il giocatore si sposta
-	*
-	* @param partita
-	*/
+	private IO console;
+	private static final String NOME = "vai";
+
+	
 	@Override
 	public void esegui(Partita partita) {
 		Stanza stanzaCorrente = partita.getLabirinto().getStanzaCorrente();
 		Stanza prossimaStanza = null;
-		if(direzione==null) {
-			console.mostraMessaggio("Dove vuoi andare? Devi specificare una direzione");
+		if (this.getParametro() == null) {
+			this.getIO().mostraMessaggio("Dove vuoi andare? Devi specificare una direzione");
+		}
+		if(this.getParametro()!=null )// && (Direzione.valueOf(this.getParametro()).getClass() != Direzione.class))
+			try {
+			prossimaStanza = stanzaCorrente.getStanzaAdiacente(Direzioni.valueOf(this.getParametro()));
+			} catch(IllegalArgumentException e) {
+				this.getIO().mostraMessaggio("Direzione inesistente");
+				return;
+			}
+			
+			if (prossimaStanza == null) {
+			this.getIO().mostraMessaggio("Direzione inesistente");
 			return;
 		}
-		prossimaStanza=stanzaCorrente.getStanzaAdiacente(this.direzione);
-		if(prossimaStanza==null) {
-			console.mostraMessaggio("Direzione inesistente");
-			return;
-		}
-		
-		partita.getLabirinto().setStanzaCorrente(prossimaStanza);
-		console.mostraMessaggio(partita.getLabirinto().getStanzaCorrente().getNome());
-		partita.getGiocatore().setCfu(partita.getGiocatore().getCfu()-1);
-	
-	}
-	
-	/**
-	 * Metodo che imposta un parametro come la direzione
-	 * 
-	 * @param parametro
-	 */
-	@Override
-	public void setParametro(String parametro) {
-		this.direzione = parametro;
-	}
 
-	/**
-	 * Metodo che ritorna il nome del comando
-	 * @return NOME
-	 */
+		partita.getLabirinto().setStanzaCorrente(prossimaStanza);
+		this.getIO().mostraMessaggio(partita.getLabirinto().getStanzaCorrente().getNome());
+		Giocatore giocatore = partita.getGiocatore();
+		giocatore.setCfu(giocatore.getCfu() - 1);
+	}
+	
+
 	@Override
 	public String getNome() {
 		return NOME;
 	}
 
-	/**
-	 * Metodo che ritorna il parametro
-	 * @return direzione
-	 */
-	@Override
-	public String getParametro() {
-		return this.direzione;
-	}
 	
 	@Override
 	public void setIO(IO io) {
 		this.console=io;
 	}
-
+	
 }

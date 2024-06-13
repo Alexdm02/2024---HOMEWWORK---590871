@@ -5,14 +5,18 @@ import java.util.Scanner;
 /**
  * IOConsole: classe che gestisce le stampe e le letture di istruzioni
  * 
- * @see IO
+ * @author docente di POO
  * 
- * @author docente di POO & 591033 (Gabriele Iorio) & 589632 (Loris Maria Cicchetti)
- * 
- * @version 2.0
+ * @version
  */
 
-public class IOConsole implements IO {
+public class IOConsole implements IO{
+	
+	Scanner scannerDiLinea;
+	
+	public IOConsole(Scanner scanner) {
+		this.scannerDiLinea = scanner;
+	}
 	
 	/**
 	 * Metodo che stampa messaggi
@@ -27,13 +31,10 @@ public class IOConsole implements IO {
      * Metodo per leggere istruzioni
      * @return restituisce una stringa
      */
+	
 	@Override
     public String leggiRiga() {
-
-    	Scanner scannerDiLinee = new Scanner(System.in);
-    	String riga = scannerDiLinee.nextLine();
-    	//scannerDiLinee.close();
-
+    	String riga = scannerDiLinea.nextLine();
     	return riga;
 
     }

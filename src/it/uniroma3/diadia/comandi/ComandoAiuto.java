@@ -3,57 +3,38 @@ package it.uniroma3.diadia.comandi;
 import it.uniroma3.diadia.Partita;
 import it.uniroma3.diadia.IO;
 
+
 /**
- * ComandoAiuto - classe che crea un comando e stampa un elenco di comandi
- * 
- * @author 591033 && 589632
- * 
- * @see Comando
- * @see IO
- * @see Partita
- * 
- * @version 2.0
- */
-public class ComandoAiuto implements Comando {
+* Nome-classe: ComandoAiuto
+* la classe è un comando per il gioco DiaDia che se selezionato stampa tutti i comandi disponibili
+* per il gioco aiutando il giocatore su cosa deve fare
+*
+* @author 590871 
+* @see FabbricaDiComandiFisarmonica
+* @version 1.0
+*/
+
+
+public class ComandoAiuto extends AbstractComando {
 	
-	static final private String[] elencoComandi = {"vai", "aiuto", "fine", "prendi", "posa", "guarda"}	;
-    static final private String NOME="aiuto";
-	private IO console;
+	public static final String[] elencoComandi = {"vai", "aiuto", "fine", "prendi", "posa", "guarda"};
+	static final private String NOME = "aiuto";
+	private IO io;
 	
-	/**
-	 * Metodo che esegue il comando, stampando l'elenco dei comandi
-	 * 
-	 * @param partita
-	 */
-	@Override
+	
 	public void esegui(Partita partita) {
-		for(int i=0; i< elencoComandi.length; i++) 
-			console.mostraMessaggio(elencoComandi[i]+" ");
-		console.mostraMessaggio("");
-
+	for(int i=0; i< elencoComandi.length; i++) 
+		io.mostraMessaggio(elencoComandi[i]+" ");
+	io.mostraMessaggio("");
 	}
-
-	@Override
-	public void setParametro(String parametro) {
-	}
-
-	/**
-	 * Metodo che ritorna il nome del comando
-	 * @return NOME
-	 */
+	
 	@Override
 	public String getNome() {
 		return NOME;
 	}
 
 	@Override
-	public String getParametro() {
-		return null;
+	public void setIO(IO console) {
+		this.io=console;
 	}
-	
-	@Override
-	public void setIO(IO io) {
-		this.console=io;
-	}
-
 }

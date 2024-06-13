@@ -2,54 +2,34 @@ package it.uniroma3.diadia.comandi;
 
 import it.uniroma3.diadia.IO;
 import it.uniroma3.diadia.Partita;
-
 /**
- * ComandoNonValido - classe che crea un comando non valido e stampa un messagio di errore
- * 
- * @author 591033 && 589632
- * 
- * @see Comando
- * @see IO
- * @see Partita
- * 
- * @version 2.0
- */
-public class ComandoNonValido implements Comando {
+* Nome-classe: ComandoNonValido
+* un comando che ritorna una stringa "non valido" se si inserisce un comando inesistente
+*
+* @author 590871 
+* @see FabbricaDiComandiFisarmonica
+* @version 1.0
+*/
+public class ComandoNonValido extends AbstractComando {
+	IO io;
+	private static final String NOME = "non valido";
 
-	private IO console;
-	private static final String NOME="Non valido";
-	
-	/**
-	 * Metodo che esegue il comando e stampa un messaggio
-	 * @param partita
-	 */
 	@Override
 	public void esegui(Partita partita) {
-		console.mostraMessaggio("Comando non valido!");
+		io.mostraMessaggio("Comando non valido");
 	}
 
-	@Override
-	public void setParametro(String parametro) {
-	}
 
-	/**
-	 * Metodo che ritorna il nome del comando
-	 * @return NOME
-	 */
 	@Override
 	public String getNome() {
 		return NOME;
+		
 	}
 
+
 	@Override
-	public String getParametro() {
-		return null;
+	public void setIO(IO console) {
+		this.io=console;
 	}
-	
-	@Override
-	public void setIO(IO io) {
-		this.console=io;
-	}
-	
 
 }
